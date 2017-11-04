@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager> {
 
+    public int progression = 0;
+
     public Transform player;
 
 	// Use this for initialization
