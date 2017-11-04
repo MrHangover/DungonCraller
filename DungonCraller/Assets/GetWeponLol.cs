@@ -4,8 +4,16 @@ using UnityEngine;
 
 public class GetWeponLol : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-        WeaponFactory.Instance.GetWeapon(Weapon.WeaponType.Sword);
-	}
+    public KeyCode GetNewWeaponKeyCode = KeyCode.I;
+
+    private GameObject instantiatedWeapon;
+
+    void Update(){
+        if(Input.GetKeyDown(GetNewWeaponKeyCode)){
+            if(instantiatedWeapon != null){
+                Destroy(instantiatedWeapon);
+            }
+            instantiatedWeapon = WeaponFactory.Instance.GetWeapon(Weapon.WeaponType.Sword);
+        }
+    }
 }
