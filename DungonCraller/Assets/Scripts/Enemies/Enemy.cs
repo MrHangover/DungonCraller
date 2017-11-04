@@ -19,15 +19,6 @@ public abstract class Enemy : Creature {
 
     }
 
-	public virtual void Move(){
-		if (dir.sqrMagnitude == 0f)
-		{
-			Friction();
-		}
-
-		Accelerate(dir);
-	}
-
 	public virtual void Accelerate(Vector2 direction)
 	{
 		if (direction.sqrMagnitude == 0f)

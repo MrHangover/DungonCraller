@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(SliderJoint2D))]
 public abstract class Weapon : MonoBehaviour {
@@ -27,6 +28,8 @@ public abstract class Weapon : MonoBehaviour {
     public float damage;
     public float weight;
     public float weaponDragSpeed;
+
+	public UnityEvent OnSendDamage;
 
     protected abstract void Activate();
 }
