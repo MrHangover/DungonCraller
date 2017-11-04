@@ -20,4 +20,5 @@ public abstract class Creature : MonoBehaviour {
     protected abstract void Move(Vector2 direction);
     protected abstract void KnockBack(Vector2 direction, float force);
     protected abstract void Damage(float damage);
+    protected abstract void Die();
 }
