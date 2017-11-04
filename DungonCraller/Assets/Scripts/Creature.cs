@@ -16,6 +16,8 @@ public abstract class Creature : MonoBehaviour {
     protected float health;
     [SerializeField]
     protected float weight;
+    [SerializeField]
+    protected float strength;
 
     public abstract void Move(Vector2 direction);
     public abstract void KnockBack(Vector2 direction, float force);

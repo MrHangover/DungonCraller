@@ -18,14 +18,12 @@ public class Player : Creature
         hand = Instantiate(new GameObject("Hand"), transform).transform;
         boxCollider = GetComponent<BoxCollider2D>();
         body = GetComponent<Rigidbody2D>();
+        EquipFist();
     }
 
     private void Update()
     {
-        if(weapon == null)
-        {
 
-        }
     }
 
     public override void Damage(float damage)
@@ -86,8 +84,9 @@ public class Player : Creature
 
     public void Attack(Vector2 normalizedAttackPosition)
     {
-        hand.position = new Vector2(transform.position.x, transform.position.y) + normalizedAttackPosition * reach;
-        hand.up = hand.position - transform.position;
+        Vector2 wantedPosition = new Vector2(transform.position.x, transform.position.y) + normalizedAttackPosition * reach;
+        hand.position = wantedPosition;
+        hand.right = hand.position - transform.position;
     }
 
     public void DropWeapon()
@@ -101,14 +100,17 @@ public class Player : Creature
         if(weaponData == null)
         {
             Debug.LogError("Wow really? You can't equip a weapon that doesn't have any Weapon script, cmon dude...");
+            EquipFist();
+            return;
         }
 
+        //TODO equip weapon
     }
 
     void EquipFist()
     {
-        weapon = Instantiate(fistPrefab, hand);
+        weapon = Instantiate(fistPrefab, hand.position, hand.rotation, hand);
         weapon.name = "Fist";
-        weapon.AddComponent<Fist>();
+        weaponData = weapon.GetComponent<Weapon>();
     }
 }

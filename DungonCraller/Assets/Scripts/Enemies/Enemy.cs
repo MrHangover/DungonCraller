@@ -9,6 +9,7 @@ public abstract class Enemy : Creature {
     public BoxCollider2D col;
     public GameObject hand;
 	public Vector2 dir;
+    public Weapon weapon;
 
     // Use this for initialization
     public virtual void Start () {
@@ -17,15 +18,6 @@ public abstract class Enemy : Creature {
         player = GameManager.Instance.player;
 
     }
-
-	public virtual void Move(){
-		if (dir.sqrMagnitude == 0f)
-		{
-			Friction();
-		}
-
-		Accelerate(dir);
-	}
 
 	public virtual void Accelerate(Vector2 direction)
 	{
