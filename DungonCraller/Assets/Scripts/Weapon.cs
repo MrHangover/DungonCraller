@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(SliderJoint2D))]
 public abstract class Weapon : MonoBehaviour {
 
-    enum WeaponType
+    public enum WeaponType
     {
         Sword,
         Hammer,
