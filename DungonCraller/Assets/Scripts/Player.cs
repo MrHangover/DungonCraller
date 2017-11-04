@@ -7,8 +7,8 @@ public class Player : Creature
     public float reach = 1f;
     public GameObject fistPrefab;
 
-    GameObject weapon;
-    Weapon weaponData;
+    GameObject weaponObject;
+    Weapon weapon;
     Transform hand;
     BoxCollider2D boxCollider;
     Rigidbody2D body;
@@ -85,7 +85,46 @@ public class Player : Creature
     public void Attack(Vector2 normalizedAttackPosition)
     {
         Vector2 wantedPosition = new Vector2(transform.position.x, transform.position.y) + normalizedAttackPosition * reach;
-        hand.position = wantedPosition;
+        Vector2 handPosition = new Vector2(hand.position.x, hand.position.y);
+
+        //!Apply friction based on weight. Make it constant for now.
+        Vector2 startNormalizedVelocity = weapon.velocity.normalized;
+        float friction = Time.deltaTime * 1f;
+        weapon.velocity -= weapon.velocity * friction;
+        if(weapon.velocity.normalized != startNormalizedVelocity)
+        {
+            weapon.velocity = Vector2.zero;
+        }
+
+        //!Apply force to weapon based on it's weight, weightscale, the players strength, and distance to target. Don't use drag yet. Drag might be useful for friction.
+        float distance = 2f * Mathf.Max(0.5f, Vector2.Distance(hand.position, wantedPosition));
+        float force = (strength / (weapon.weight * weapon.weightScale)) * distance * Time.deltaTime;
+        weapon.velocity += force * (wantedPosition - handPosition).normalized;
+
+        //!Limit weapon speed to max velocity.
+        float velocityMagnitude = weapon.velocity.magnitude;
+        if(velocityMagnitude > weapon.maxSpeed)
+        {
+            Vector2 normalizedVelocity = weapon.velocity.normalized;
+            weapon.velocity = normalizedVelocity * weapon.maxSpeed;
+        }
+
+        //!Change position based on velocity
+        hand.position += new Vector3(weapon.velocity.x, weapon.velocity.y, hand.position.z) * Time.deltaTime;
+
+        //Limit reach
+        Vector2 transformPosition = new Vector2(transform.position.x, transform.position.y);
+        handPosition = new Vector2(hand.position.x, hand.position.y);
+        Vector2 relativeHandPosition = transformPosition - handPosition;
+        if(relativeHandPosition != Vector2.zero && 
+            relativeHandPosition.sqrMagnitude > (relativeHandPosition.normalized * reach).sqrMagnitude)
+        {
+            handPosition = transformPosition - relativeHandPosition.normalized * reach;
+            hand.position = new Vector3(handPosition.x, handPosition.y, hand.position.z);
+            //If velocity tries to go outside the reach, apply the velocity to the player, based on weapon and player weight.
+
+        }
+
         hand.right = hand.position - transform.position;
     }
 
@@ -96,8 +135,8 @@ public class Player : Creature
 
     public void EquipWeapon(GameObject weapon)
     {
-        weaponData = weapon.GetComponent<Weapon>();
-        if(weaponData == null)
+        this.weapon = weapon.GetComponent<Weapon>();
+        if(this.weapon == null)
         {
             Debug.LogError("Wow really? You can't equip a weapon that doesn't have any Weapon script, cmon dude...");
             EquipFist();
@@ -109,8 +148,8 @@ public class Player : Creature
 
     void EquipFist()
     {
-        weapon = Instantiate(fistPrefab, hand.position, hand.rotation, hand);
-        weapon.name = "Fist";
-        weaponData = weapon.GetComponent<Weapon>();
+        weaponObject = Instantiate(fistPrefab, hand.position, hand.rotation, hand);
+        weaponObject.name = "Fist";
+        weapon = weaponObject.GetComponent<Weapon>();
     }
 }
