@@ -19,6 +19,8 @@ public class WeaponFactory : Singleton<WeaponFactory>
         wg.SetGraphics(handle, blade);
 
         //TODO: Actual weapon stats here...
+        Weapon w = weapon.AddComponent<Weapon>();
+        w.damage = GlobalBaseValues.WEAPON_BASE_VALUES[weaponType];
 
         return weapon;
     }
