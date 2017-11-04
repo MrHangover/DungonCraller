@@ -6,9 +6,11 @@ public class ShroomBehaviour : MonoBehaviour {
 
     public Animator animator;
 
-    void Update(){
-        if(Input.GetKeyDown(KeyCode.P)){
-            animator.SetTrigger("Attack");
-        }
+    void Start(){
+        AAEMusicLooper.OnBeat += Attack;
+    }
+
+    void Attack(){
+        animator.SetTrigger("Attack");
     }
 }
