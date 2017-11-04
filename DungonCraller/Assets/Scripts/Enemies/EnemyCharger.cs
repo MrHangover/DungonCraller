@@ -12,20 +12,19 @@ public class EnemyCharger : Enemy {
 
 	public override void Start()
 	{
+		hasHit = false;
 		base.Start();
-
 		StartCoroutine(Attack());
 	}
 
-	public void Update(){
+	public void Update()
+	{
 		Move(AimDirection);
 	}
 
 	public override void Move(Vector2 dir)
 	{
-		if(hasHit){
-			Friction();	
-		}else if(Vector3.Angle((player.position - transform.position), transform.up) > 100){
+		if(Vector3.Angle((player.position - hand.transform.position), hand.transform.up) > 100){
 			Friction();	
 		}
 	}
@@ -37,7 +36,7 @@ public class EnemyCharger : Enemy {
 			hasHit = false;
 			AimDirection = FindDirection();
 			float LookAngle = Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg;
-			transform.rotation = Quaternion.Euler(0f, 0f, LookAngle - 90);
+			hand.transform.rotation = Quaternion.Euler(0f, 0f, LookAngle - 90);
 			AimPoint = dir;
 			yield return new WaitForSeconds(1f);
 
@@ -49,11 +48,13 @@ public class EnemyCharger : Enemy {
 
 	public void SetHasHit(){
 		hasHit = true;
+		rb.velocity = Vector2.zero;
+		rb.angularVelocity = 0f;
 	}
 		
 	Vector2 FindDirection()
 	{
-		Vector2 dir = player.position-transform.position ;
+		Vector2 dir = player.position-hand.transform.position ;
 		return dir;
 	}
 
