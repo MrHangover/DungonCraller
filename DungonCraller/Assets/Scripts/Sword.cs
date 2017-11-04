@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Sword : Weapon {
 
-    protected override void Start ()
-    {
-        base.Start();
-	}
+ //   protected override void Start ()
+ //   {
+ //       base.Start();
+	//}
 	
 	void Update ()
     {
