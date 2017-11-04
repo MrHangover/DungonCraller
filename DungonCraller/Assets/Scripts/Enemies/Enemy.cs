@@ -15,7 +15,6 @@ public abstract class Enemy : Creature {
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<BoxCollider2D>();
         player = GameManager.Instance.player;
-
     }
 
 	public virtual void Accelerate(Vector2 direction)
