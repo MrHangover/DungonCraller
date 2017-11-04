@@ -29,7 +29,7 @@ public class EnemySkeleton : Enemy {
 
     public override void Attack()
     {
-        hand.transform.Rotate(new Vector3(0,0,90f));
+        hand.transform.Rotate(new Vector3(0,0,-90f));
         StartCoroutine("AttackWait");
     }
 
