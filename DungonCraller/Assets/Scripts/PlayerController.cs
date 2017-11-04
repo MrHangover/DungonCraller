@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        Vector2 input = new Vector2(Input.GetAxis("Horizotal"), Input.GetAxis("Vertical"));
+        Vector2 input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         player.Move(input);
 	}
 }

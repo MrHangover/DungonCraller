@@ -5,23 +5,26 @@ using UnityEngine;
 [RequireComponent(typeof(SliderJoint2D))]
 public abstract class Weapon : MonoBehaviour {
 
-    float durabilityPrHitScale;
-    float damageScale;
-    float weightScale;
-    float dragScale;
-
-    float durabilityPrHit;
-    float durability;
-    float damage;
-    float weight;
-    float weaponDragSpeed;
-
-    SliderJoint2D slider;
-
-    protected virtual void Start()
+    enum WeaponType
     {
-        slider = GetComponent<SliderJoint2D>();
-    }
+        Sword,
+        Hammer,
+        Flail,
+        Bow,
+        Dagger
+    };
+
+    public float durabilityPrHitScale;
+    public float damageScale;
+    public float weightScale;
+    public float dragScale;
+
+    public float maxSpeed;
+    public float durabilityPrHit;
+    public float durability;
+    public float damage;
+    public float weight;
+    public float weaponDragSpeed;
 
     protected abstract void Aim(Vector2 mousePos);
     protected abstract void Activate();

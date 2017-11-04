@@ -35,7 +35,10 @@ public class Player : Creature
 
     public override void Move(Vector2 direction)
     {
-        Friction();
+        if(direction.sqrMagnitude == 0f)
+        {
+            Friction();
+        }
 
         Accelerate(direction);
     }
