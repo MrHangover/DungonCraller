@@ -15,6 +15,7 @@ public abstract class Weapon : MonoBehaviour {
         Fist
     };
 
+    public WeaponType type;
     public float durabilityPrHitScale;
     public float damageScale;
     public float weightScale;
