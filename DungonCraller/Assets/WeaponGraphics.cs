@@ -8,7 +8,7 @@ public class WeaponGraphics : MonoBehaviour {
 
     public void SetGraphics(GameObject handle, GameObject head){
 
-        Instantiate(handle, originPoint.position, Quaternion.identity, originPoint);
-        Instantiate(head, originPoint.position, Quaternion.identity, originPoint);
+        handle.transform.SetParent(originPoint);
+        head.transform.SetParent(originPoint);
     }
 }

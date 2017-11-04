@@ -19,10 +19,31 @@ public class WeaponFactory : Singleton<WeaponFactory>
         wg.SetGraphics(handle, blade);
 
         //TODO: Actual weapon stats here...
-        Weapon w = weapon.AddComponent<Weapon>();
+        System.Type wType = GetWeaponClassFromType(weaponType);
+        Weapon w = weapon.AddComponent(wType) as Weapon;
         w.damage = GlobalBaseValues.WEAPON_BASE_VALUES[weaponType];
 
         return weapon;
+    }
+
+    public System.Type GetWeaponClassFromType(Weapon.WeaponType type){
+        switch (type)
+        {
+            case Weapon.WeaponType.Sword:
+                return typeof(Sword);
+            case Weapon.WeaponType.Hammer:
+                return typeof(Sword); // XD
+            case Weapon.WeaponType.Flail:
+                return typeof(Sword); // XD
+            case Weapon.WeaponType.Bow:
+                return typeof(Sword); // XD
+            case Weapon.WeaponType.Dagger:
+                return typeof(Sword); // XD
+            case Weapon.WeaponType.Fist:
+                return typeof(Sword); // XD
+            default:
+                return typeof(Sword); // XD
+        }
     }
 
 }
