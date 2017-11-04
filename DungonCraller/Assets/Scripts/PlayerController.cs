@@ -2,13 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : Creature
+{
+    protected override void Damage(float damage)
+    {
+        health -= damage;
+        if(health <= 0f)
+        {
+            Die();
+        }
+    }
 
-    public PlayerMovement player;
+    protected override void Die()
+    {
+        throw new System.NotImplementedException();
+    }
 
-	// Update is called once per frame
-	void Update () {
-        Vector2 input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        player.Move(input);
-	}
+    protected override void KnockBack(Vector2 direction, float force)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    protected override void Move(Vector2 direction)
+    {
+        throw new System.NotImplementedException();
+    }
 }
