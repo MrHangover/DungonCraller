@@ -5,15 +5,17 @@ using UnityEngine;
 [RequireComponent(typeof(SliderJoint2D))]
 public abstract class Weapon : MonoBehaviour {
 
-    enum WeaponType
+    public enum WeaponType
     {
         Sword,
         Hammer,
         Flail,
         Bow,
-        Dagger
+        Dagger,
+        Fist
     };
 
+    public WeaponType type;
     public float durabilityPrHitScale;
     public float damageScale;
     public float weightScale;
@@ -26,6 +28,5 @@ public abstract class Weapon : MonoBehaviour {
     public float weight;
     public float weaponDragSpeed;
 
-    protected abstract void Aim(Vector2 mousePos);
     protected abstract void Activate();
 }

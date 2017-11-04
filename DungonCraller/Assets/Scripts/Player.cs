@@ -4,13 +4,28 @@ using UnityEngine;
 
 public class Player : Creature
 {
+    public float reach = 1f;
+    public GameObject fistPrefab;
+
+    GameObject weapon;
+    Weapon weaponData;
+    Transform hand;
     BoxCollider2D boxCollider;
     Rigidbody2D body;
 
     private void Start()
     {
+        hand = Instantiate(new GameObject("Hand"), transform).transform;
         boxCollider = GetComponent<BoxCollider2D>();
         body = GetComponent<Rigidbody2D>();
+    }
+
+    private void Update()
+    {
+        if(weapon == null)
+        {
+
+        }
     }
 
     public override void Damage(float damage)
@@ -69,8 +84,31 @@ public class Player : Creature
         }
     }
 
-    void Attack()
+    public void Attack(Vector2 normalizedAttackPosition)
+    {
+        hand.position = new Vector2(transform.position.x, transform.position.y) + normalizedAttackPosition * reach;
+        hand.up = hand.position - transform.position;
+    }
+
+    public void DropWeapon()
     {
 
+    }
+
+    public void EquipWeapon(GameObject weapon)
+    {
+        weaponData = weapon.GetComponent<Weapon>();
+        if(weaponData == null)
+        {
+            Debug.LogError("Wow really? You can't equip a weapon that doesn't have any Weapon script, cmon dude...");
+        }
+
+    }
+
+    void EquipFist()
+    {
+        weapon = Instantiate(fistPrefab, hand);
+        weapon.name = "Fist";
+        weapon.AddComponent<Fist>();
     }
 }
