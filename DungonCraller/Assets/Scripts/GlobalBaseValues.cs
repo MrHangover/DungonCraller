@@ -9,5 +9,5 @@ public static class GlobalBaseValues
         {Weapon.WeaponType.Sword, 5f},
         {Weapon.WeaponType.Dagger, 2f},
         {Weapon.WeaponType.Flail, 10f}
-    }
+    };
 }
