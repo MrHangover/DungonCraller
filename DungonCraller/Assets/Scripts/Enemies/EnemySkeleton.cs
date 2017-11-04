@@ -46,7 +46,7 @@ public class EnemySkeleton : Enemy {
         return destination;
     }
 
-    protected override void Move(Vector2 direction)
+    public override void Move(Vector2 direction)
     {
         StartCoroutine("MoveOverTime");
     }
@@ -76,12 +76,12 @@ public class EnemySkeleton : Enemy {
 
 
 
-    protected override void KnockBack(Vector2 direction, float force)
+    public override void KnockBack(Vector2 direction, float force)
     {
         throw new System.NotImplementedException();
     }
 
-    protected override void Damage(float damage)
+    public override void Damage(float damage)
     {
         throw new System.NotImplementedException();
     }
