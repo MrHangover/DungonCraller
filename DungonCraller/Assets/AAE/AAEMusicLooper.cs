@@ -436,7 +436,6 @@ public class AAEMusicLooper : MonoBehaviour {
 			}
 			if (OnBeat != null) {
 				OnBeat ();
-                Debug.Log("CalledOnBeat");
 			}
 			nextTime += interval;
 			yield return new WaitForSeconds(nextTime - Time.time);

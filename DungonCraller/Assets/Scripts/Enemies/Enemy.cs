@@ -2,32 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Enemy : MonoBehaviour {
+public abstract class Enemy : Creature {
 
-    public float health;
-    public float speed;
-    public Weapon weapon;
+    protected Transform player;
+    public Rigidbody2D rb;
+    public BoxCollider2D col;
+    public GameObject hand;
 
-	// Use this for initialization
-	public virtual void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	public virtual void Update () {
-		
-	}
+    // Use this for initialization
+    public virtual void Start () {
+        rb = GetComponent<Rigidbody2D>();
+        col = GetComponent<BoxCollider2D>();
+        player = GameManager.Instance.player;
+
+    }
 
     public virtual void Attack()
     {
 
     }
-
-    public virtual void Die()
-    {
-
-    }
-
-
+    
 
 }
