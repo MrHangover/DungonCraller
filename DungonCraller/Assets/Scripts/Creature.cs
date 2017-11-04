@@ -7,15 +7,15 @@ using UnityEngine;
 public abstract class Creature : MonoBehaviour {
 
     [SerializeField]
-    float acceleration;
+    protected float acceleration;
     [SerializeField]
-    float maxSpeed;
+    protected float maxSpeed;
     [SerializeField]
-    float friction;
+    protected float friction;
     [SerializeField]
-    float health;
+    protected float health;
     [SerializeField]
-    float weight;
+    protected float weight;
 
     protected abstract void Move(Vector2 direction);
     protected abstract void KnockBack(Vector2 direction, float force);
