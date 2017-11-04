@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class Player : Creature
 {
+    public float reach = 1f;
+
+    Transform hand;
     BoxCollider2D boxCollider;
     Rigidbody2D body;
 
     private void Start()
     {
+        hand = Instantiate(new GameObject("Hand"), transform).transform;
         boxCollider = GetComponent<BoxCollider2D>();
         body = GetComponent<Rigidbody2D>();
     }
@@ -69,8 +73,8 @@ public class Player : Creature
         }
     }
 
-    void Attack()
+    void Attack(Vector2 normalizedAttackPosition)
     {
-
+        hand.position = new Vector2(transform.position.x, transform.position.y) + normalizedAttackPosition * reach;
     }
 }

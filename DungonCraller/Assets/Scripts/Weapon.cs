@@ -11,7 +11,8 @@ public abstract class Weapon : MonoBehaviour {
         Hammer,
         Flail,
         Bow,
-        Dagger
+        Dagger,
+        Fist
     };
 
     public float durabilityPrHitScale;
@@ -26,6 +27,5 @@ public abstract class Weapon : MonoBehaviour {
     public float weight;
     public float weaponDragSpeed;
 
-    protected abstract void Aim(Vector2 mousePos);
     protected abstract void Activate();
 }
