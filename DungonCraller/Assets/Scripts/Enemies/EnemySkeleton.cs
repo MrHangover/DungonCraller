@@ -10,6 +10,7 @@ public class EnemySkeleton : Enemy {
     public float waitTime = 2f;
     public float attackSpeed = 3f;
     public AnimationCurve attackCurve;
+    public GameObject deathParticles;
 
 	// Use this for initialization
 	public override void Start ()
@@ -130,7 +131,7 @@ public class EnemySkeleton : Enemy {
 
     protected override void Die()
     {
-
+        Instantiate(deathParticles, transform.position, Quaternion.identity);
         //drop some loot and shieet. 
         //particles!
 
