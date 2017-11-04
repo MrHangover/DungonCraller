@@ -8,7 +8,6 @@ public class PlayerMovement : MonoBehaviour {
 
     public PlayerMovementData movementData;
 
-    private bool isGrounded;
     private Vector2 velocity;
     private BoxCollider2D boxCollider;
     private Rigidbody2D body;
@@ -21,7 +20,6 @@ public class PlayerMovement : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         Friction(velocity);
-        //TODO raycast physics, save info, use for functions and collision
 
         Accelerate(velocity);
 	}
@@ -33,14 +31,6 @@ public class PlayerMovement : MonoBehaviour {
     Vector2 Friction(Vector2 velocity)
     {
         //TODO apply friction
-        if (isGrounded)
-        {
-
-        }
-        else
-        {
-
-        }
         return velocity;
     }
 
