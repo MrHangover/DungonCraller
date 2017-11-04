@@ -5,11 +5,16 @@ using UnityEngine;
 public abstract class BaseRoomContentItem : MonoBehaviour
 {
     [SerializeField]
-    protected GameObject objectRef { private get; set; }
-    
+    SpriteRenderer _imageRef;
 
-    void OnDestroy()
+    public void SetSprite ( Sprite sprite)
     {
-        DestroyImmediate (objectRef);
+        _imageRef.sprite = sprite;
+    }
+
+
+    public void SetSize ( Vector2 size )
+    {
+        _imageRef.size = (size);
     }
 }

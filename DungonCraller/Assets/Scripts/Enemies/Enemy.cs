@@ -9,6 +9,7 @@ public abstract class Enemy : Creature {
     public BoxCollider2D col;
     public GameObject hand;
 	public Vector2 dir;
+    public Weapon weapon;
 
     // Use this for initialization
     public virtual void Start () {

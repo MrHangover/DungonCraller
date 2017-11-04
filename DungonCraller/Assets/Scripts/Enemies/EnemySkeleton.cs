@@ -8,7 +8,8 @@ public class EnemySkeleton : Enemy {
     Vector2 direction;
     public float attackrange;
     public float waitTime = 2f;
-    
+    public float attackSpeed = 3f;
+    public AnimationCurve attackCurve;
 
 	// Use this for initialization
 	public override void Start ()
@@ -29,15 +30,39 @@ public class EnemySkeleton : Enemy {
 
     public override void Attack()
     {
-        hand.transform.Rotate(new Vector3(0,0,-90f));
-        StartCoroutine("AttackWait");
+        StartCoroutine("AttackAnim");
     }
 
+    IEnumerator AttackAnim()
+    {
+        Quaternion startRotation = hand.transform.rotation;
+        Quaternion wantedRotation = hand.transform.rotation * Quaternion.Euler(0, 0, -90f);
+
+        float t = 0;
+        while (t < 1)
+        {
+            hand.transform.rotation = Quaternion.SlerpUnclamped(startRotation, wantedRotation, attackCurve.Evaluate(t));
+            t += Time.deltaTime * attackSpeed;
+            yield return new WaitForEndOfFrame();
+        }
+
+
+
+
+        //var lookPos = target.position - transform.position;
+        //lookPos.y = 0;
+        //var rotation = Quaternion.LookRotation(lookPos);
+        //rotation *= Quaternion.Euler(0, 90, 0); // this adds a 90 degrees Y rotation
+        //var adjustRotation = transform.rotation.y + rotationAdjust; //<- this is wrong!
+        //transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * damping);
+
+        StartCoroutine("AttackWait");
+    }
 
     
     IEnumerator AttackWait()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(waitTime);
         Attack();
     }
 
@@ -45,7 +70,6 @@ public class EnemySkeleton : Enemy {
 
     Vector2 FindDirection()
     {
-        print("find");
         destination = player.position;
         if (Vector2.Distance(transform.position, destination) > attackrange)
         {
@@ -58,7 +82,6 @@ public class EnemySkeleton : Enemy {
     IEnumerator MoveOverTime()
     {
         
-        print("moveovertime");
         while (Vector2.Distance(transform.position,destination) > attackrange)
         {
             yield return new WaitForEndOfFrame();
@@ -70,7 +93,6 @@ public class EnemySkeleton : Enemy {
     {
 //        rb.velocity = Vector2.zero;
         direction = Vector2.zero;
-        print("wait");
         StopCoroutine("MoveOverTime");
         yield return new WaitForSeconds(2);
         FindDirection();
@@ -88,32 +110,6 @@ public class EnemySkeleton : Enemy {
         }
 
         Accelerate(direction);
-    }
-
-    void Accelerate(Vector2 direction)
-    {
-        if (direction.sqrMagnitude == 0f)
-        {
-            return;
-        }
-
-        Vector2 addedAcceleration = direction.normalized * acceleration * Time.deltaTime;
-        if ((rb.velocity + addedAcceleration).magnitude > maxSpeed)
-        {
-            addedAcceleration = rb.velocity - (rb.velocity + addedAcceleration).normalized * maxSpeed;
-        }
-        rb.velocity += addedAcceleration;
-    }
-
-    void Friction()
-    {
-        Vector2 normalizedVelocity = rb.velocity.normalized;
-        Vector2 appliedFriction = -normalizedVelocity * friction * Time.deltaTime;
-        rb.velocity += appliedFriction;
-        if (rb.velocity.normalized != normalizedVelocity)
-        {
-            rb.velocity = Vector2.zero;
-        }
     }
     
 
