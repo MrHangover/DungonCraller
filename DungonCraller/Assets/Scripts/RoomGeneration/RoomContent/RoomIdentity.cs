@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class RoomIdentity : MonoBehaviour {
     public GameObject gmref;
     public bool ContentGenerated { get; private set; }

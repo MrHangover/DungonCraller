@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(SliderJoint2D))]
 public abstract class Weapon : MonoBehaviour {
 
     public enum WeaponType
@@ -16,6 +15,7 @@ public abstract class Weapon : MonoBehaviour {
         Fist
     };
 
+    public Vector2 velocity;
     public WeaponType type;
     public float durabilityPrHitScale;
     public float damageScale;
