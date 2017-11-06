@@ -87,9 +87,9 @@ public class Player : Creature
         Vector2 wantedPosition = new Vector2(transform.position.x, transform.position.y) + normalizedAttackPosition * reach;
         Vector2 handPosition = new Vector2(hand.position.x, hand.position.y);
 
-        //!Apply friction based on weight. Make it constant for now.
+        //!Apply friction. Make it constant for now.
         Vector2 startNormalizedVelocity = weapon.velocity.normalized;
-        float friction = Time.deltaTime * 1f;
+        float friction = Time.deltaTime * 5f;
         weapon.velocity -= weapon.velocity * friction;
         if(weapon.velocity.normalized != startNormalizedVelocity)
         {
@@ -97,8 +97,8 @@ public class Player : Creature
         }
 
         //!Apply force to weapon based on it's weight, weightscale, the players strength, and distance to target. Don't use drag yet. Drag might be useful for friction.
-        float distance = 2f * Mathf.Max(0.5f, Vector2.Distance(hand.position, wantedPosition));
-        float force = (strength / (weapon.weight * weapon.weightScale)) * distance * Time.deltaTime;
+        float distance = 2f * Mathf.Max(0.3f, Vector2.Distance(hand.position, wantedPosition));
+        float force = (strength - (weapon.weight * weapon.weightScale)) * distance * Time.deltaTime;
         weapon.velocity += force * (wantedPosition - handPosition).normalized;
 
         //!Limit weapon speed to max velocity.
@@ -122,7 +122,14 @@ public class Player : Creature
             handPosition = transformPosition - relativeHandPosition.normalized * reach;
             hand.position = new Vector3(handPosition.x, handPosition.y, hand.position.z);
             //If velocity tries to go outside the reach, apply the velocity to the player, based on weapon and player weight.
+            Vector2 velocityToAdd = weapon.velocity * (weapon.weight / weight);
+            body.velocity += weapon.velocity * (weapon.weight / weight) * Time.deltaTime;
 
+            //Limit player velocity to weapon velocity
+            if((body.velocity + velocityToAdd).sqrMagnitude > weapon.velocity.sqrMagnitude)
+            {
+                velocityToAdd = weapon.velocity - (body.velocity + velocityToAdd);
+            }
         }
 
         hand.right = hand.position - transform.position;
