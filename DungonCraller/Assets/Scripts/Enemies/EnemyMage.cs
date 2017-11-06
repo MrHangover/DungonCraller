@@ -13,6 +13,8 @@ public class EnemyMage : Enemy {
     public float shootSpeed = 5f;
 
     public GameObject projectile;
+    public GameObject deathParticles;
+
 
     // Use this for initialization
     public override void Start () {
@@ -30,7 +32,7 @@ public class EnemyMage : Enemy {
     {
         //shoot
         Vector3 shootDir = (player.position - transform.position);
-        GameObject g = Instantiate(projectile, transform.position + shootDir.normalized, Quaternion.identity);
+        GameObject g = Instantiate(projectile, transform.position + shootDir.normalized * 2f, Quaternion.identity);
         g.GetComponent<Rigidbody2D>().velocity = shootDir.normalized * shootSpeed;
 
         StartCoroutine("WaitToMove");
@@ -44,11 +46,12 @@ public class EnemyMage : Enemy {
     
     public void FindDirection()
     {
+        rb.velocity = Vector3.zero;
+
         Vector3 playerDir = (player.transform.position - transform.position);
         destination = (Vector3.Cross(playerDir, Vector3.forward) + playerDir);
         direction = destination.normalized;
         //find and set direction
-        print("find direction " + destination + " " + direction+" "+ playerDir+" "+ Vector3.forward+" "+ Vector3.Cross(Vector3.up,playerDir));
         StartCoroutine("WaitToAttack");
     }
 
@@ -75,17 +78,25 @@ public class EnemyMage : Enemy {
 
     public override void Damage(float damage)
     {
-        throw new NotImplementedException();
+        health -= damage;
+        if (health <= 0)
+        {
+            Die();
+        }
     }
 
     public override void KnockBack(Vector2 direction, float force)
     {
-        throw new NotImplementedException();
+        rb.AddForce(direction * force);
     }
 
     protected override void Die()
     {
-        throw new NotImplementedException();
+        Instantiate(deathParticles, transform.position, Quaternion.identity);
+        //drop some loot and shieet. 
+        //particles!
+
+        Destroy(gameObject);
     }
 
 }

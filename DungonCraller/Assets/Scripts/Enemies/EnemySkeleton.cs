@@ -71,6 +71,8 @@ public class EnemySkeleton : Enemy {
 
     Vector2 FindDirection()
     {
+        rb.velocity = Vector3.zero;
+
         destination = player.position;
         if (Vector2.Distance(transform.position, destination) > attackrange)
         {
