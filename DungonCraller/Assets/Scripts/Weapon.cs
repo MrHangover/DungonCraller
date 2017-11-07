@@ -15,14 +15,14 @@ public abstract class Weapon : MonoBehaviour {
         Fist
     };
 
-    public Vector2 velocity;
+    public float torque = 0f;
     public WeaponType type;
     public float durabilityPrHitScale;
     public float damageScale;
     public float weightScale;
     public float dragScale;
 
-    public float maxSpeed;
+    public float maxTorque;
     public float durabilityPrHit;
     public float durability;
     public float damage;

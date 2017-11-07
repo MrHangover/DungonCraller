@@ -146,8 +146,13 @@ public class Player : Creature
         float angleToPointer = Vector2.SignedAngle(playerToWeapon, playerToPointer);
 
         //Apply force based on the angle between the weapon and the pointer, and the weight of the weapon.
-        //float torque;
-        hand.Rotate(0f, 0f, angleToPointer);
+        float reachMultiplier = 1f - reach * 0.75f;
+        weapon.torque += (angleToPointer / weight) * reachMultiplier * Time.deltaTime;
+        weapon.torque = weapon.torque < 0f ? Mathf.Max(-weapon.maxTorque, weapon.torque) : Mathf.Min(weapon.maxTorque, weapon.torque);
+        print("torque: " + weapon.torque);
+
+        //Calculate final positions
+        hand.Rotate(0f, 0f, weapon.torque);
         hand.position = transform.position + hand.right * reach;
     }
 
