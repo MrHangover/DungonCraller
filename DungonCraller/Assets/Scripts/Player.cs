@@ -82,16 +82,17 @@ public class Player : Creature
         }
     }
 
-    public void Attack(Vector2 normalizedAttackPosition)
+    public void Attack(Vector2 pointerPosition)
     {
-        Vector2 wantedPosition = new Vector2(transform.position.x, transform.position.y) + normalizedAttackPosition * reach;
+        //------------------------FIRST ITERATION------------------------------
+        /*Vector2 wantedPosition = new Vector2(transform.position.x, transform.position.y) + normalizedAttackPosition * reach;
         Vector2 handPosition = new Vector2(hand.position.x, hand.position.y);
 
         //!Apply friction based on weight. Make it constant for now.
         Vector2 startNormalizedVelocity = weapon.velocity.normalized;
         float friction = Time.deltaTime * 1f;
         weapon.velocity -= weapon.velocity * friction;
-        if(weapon.velocity.normalized != startNormalizedVelocity)
+        if (weapon.velocity.normalized != startNormalizedVelocity)
         {
             weapon.velocity = Vector2.zero;
         }
@@ -103,7 +104,7 @@ public class Player : Creature
 
         //!Limit weapon speed to max velocity.
         float velocityMagnitude = weapon.velocity.magnitude;
-        if(velocityMagnitude > weapon.maxSpeed)
+        if (velocityMagnitude > weapon.maxSpeed)
         {
             Vector2 normalizedVelocity = weapon.velocity.normalized;
             weapon.velocity = normalizedVelocity * weapon.maxSpeed;
@@ -116,7 +117,7 @@ public class Player : Creature
         Vector2 transformPosition = new Vector2(transform.position.x, transform.position.y);
         handPosition = new Vector2(hand.position.x, hand.position.y);
         Vector2 relativeHandPosition = transformPosition - handPosition;
-        if(relativeHandPosition != Vector2.zero && 
+        if (relativeHandPosition != Vector2.zero &&
             relativeHandPosition.sqrMagnitude > (relativeHandPosition.normalized * reach).sqrMagnitude)
         {
             handPosition = transformPosition - relativeHandPosition.normalized * reach;
@@ -125,7 +126,29 @@ public class Player : Creature
 
         }
 
-        hand.right = hand.position - transform.position;
+        hand.right = hand.position - transform.position;*/
+
+
+        //---------------------------SECOND ITERATION--------------------------------
+
+        //Find the distance from the player to the pointer.
+        Vector2 playerCenter = Camera.main.WorldToScreenPoint(transform.position);
+        float distanceToPointer = Vector2.Distance(playerCenter, pointerPosition);
+
+        //Calculate the in/out position of the weapon based on the distance from the player to the weapon.
+        float screenScale = Screen.height / 3f;
+        float reach = Mathf.Min(1f, distanceToPointer / screenScale);
+
+        //Find angle between the weapon's current angle and the desired angle.
+        Vector2 handCenter = Camera.main.WorldToScreenPoint(hand.position);
+        Vector2 playerToWeapon = handCenter - playerCenter;
+        Vector2 playerToPointer = pointerPosition - playerCenter;
+        float angleToPointer = Vector2.SignedAngle(playerToWeapon, playerToPointer);
+
+        //Apply force based on the angle between the weapon and the pointer, and the weight of the weapon.
+        //float torque;
+        hand.Rotate(0f, 0f, angleToPointer);
+        hand.position = transform.position + hand.right * reach;
     }
 
     public void DropWeapon()

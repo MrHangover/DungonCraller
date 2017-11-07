@@ -16,7 +16,8 @@ public class PlayerController : MonoBehaviour {
         Vector2 input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         player.Move(input);
 
-        float mouseRadius = Screen.height * 0.25f; //TODO avoid using hardcoded values
+        //-------------------FIRST ITERATION----------------------------
+        /*float mouseRadius = Screen.height * 0.25f; //TODO avoid using hardcoded values
         Vector2 mouseInput = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
         Vector2 characterCenter = Camera.main.WorldToScreenPoint(transform.position);
         Vector2 relativeMousePos = mouseInput - characterCenter;
@@ -25,6 +26,9 @@ public class PlayerController : MonoBehaviour {
         {
             normalizedMousePos.Normalize();
         }
-        player.Attack(normalizedMousePos);
-	}
+        player.Attack(normalizedMousePos);*/
+
+        Vector2 mouseInput = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+        player.Attack(mouseInput);
+    }
 }
