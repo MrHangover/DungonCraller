@@ -131,6 +131,14 @@ public class Player : Creature
 
         //---------------------------SECOND ITERATION--------------------------------
 
+        //Apply friction
+        float initialTorque = weapon.torque;
+        weapon.torque -= Mathf.Sign(weapon.torque) * weapon.weaponDragSpeed * weapon.dragScale * Time.deltaTime;
+        if (Mathf.Sign(weapon.torque) != Mathf.Sign(initialTorque))
+        {
+            weapon.torque = 0f;
+        }
+
         //Find the distance from the player to the pointer.
         Vector2 playerCenter = Camera.main.WorldToScreenPoint(transform.position);
         float distanceToPointer = Vector2.Distance(playerCenter, pointerPosition);
@@ -149,10 +157,12 @@ public class Player : Creature
         float reachMultiplier = 1f - reach * 0.75f;
         weapon.torque += (angleToPointer / weight) * reachMultiplier * Time.deltaTime;
         weapon.torque = weapon.torque < 0f ? Mathf.Max(-weapon.maxTorque, weapon.torque) : Mathf.Min(weapon.maxTorque, weapon.torque);
-        print("torque: " + weapon.torque);
+
+        //Change force based on angle to pointer
+        weapon.torque *= Mathf.Min(1f, angleToPointer / 70f);
 
         //Calculate final positions
-        hand.Rotate(0f, 0f, weapon.torque);
+        hand.Rotate(0f, 0f, weapon.torque * Time.deltaTime);
         hand.position = transform.position + hand.right * reach;
     }
 
